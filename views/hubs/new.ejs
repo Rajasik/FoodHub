@@ -3,22 +3,34 @@
 <div class="row">
     <h1 class="text-center">New FoodHub</h1>
     <div class="col-6 offset-3">
-        <form action="/hubs" method="POST">
+        <form action="/hubs" method="POST" novalidate class="validated-form">
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
-                <input class="form-control" type="text" name="hub[title]" id="title">
+                <input class="form-control" type="text" name="hub[title]" id="title" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="location">Location</label>
-                <input class="form-control" type="text" name="hub[location]" id="location">
+                <input class="form-control" type="text" name="hub[location]" id="location" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="image">Image Url</label>
-                <input class="form-control" type="text" name="hub[image]" id="image">
+                <input class="form-control" type="text" name="hub[image]" id="image" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="description">Description</label>
-                <textarea class="form-control" type="text" name="hub[description]" id="description"></textarea>
+                <textarea class="form-control" type="text" name="hub[description]" id="description" required></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <button class="btn btn-success">Add Hub</button>

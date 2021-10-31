@@ -3,22 +3,34 @@
 <div class="row">
     <h1 class="text-center">Edit FoodHub</h1>
     <div class="col-6 offset-3">
-        <form action="/hubs/<%= hub._id %>/?_method=PUT" method="POST">
+        <form action="/hubs/<%= hub._id %>/?_method=PUT" method="POST" novalidate class="validated-form">
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
-                <input class="form-control" type="text" name="hub[title]" id="title" value="<%= hub.title %>">
+                <input class="form-control" type="text" name="hub[title]" id="title" value="<%= hub.title %>" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="location">Location</label>
-                <input class="form-control" type="text" name="hub[location]" id="location" value="<%= hub.location %>">
+                <input class="form-control" type="text" name="hub[location]" id="location" value="<%= hub.location %>" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="image">Image Url</label>
-                <input class="form-control" type="text" name="hub[image]" id="image" value="<%= hub.image %>">
+                <input class="form-control" type="text" name="hub[image]" id="image" value="<%= hub.image %>" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="description">Description</label>
-                <textarea class="form-control" type="text" name="hub[description]" id="description"><%= hub.description %> </textarea>
+                <textarea class="form-control" type="text" name="hub[description]" id="description" required><%= hub.description %> </textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <button class="btn btn-info">Update Hub</button>
