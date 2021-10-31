@@ -1,0 +1,29 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="row">
+    <h1 class="text-center">New FoodHub</h1>
+    <div class="col-6 offset-3">
+        <form action="/hubs" method="POST">
+            <div class="mb-3">
+                <label class="form-label" for="title">Title</label>
+                <input class="form-control" type="text" name="hub[title]" id="title">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="location">Location</label>
+                <input class="form-control" type="text" name="hub[location]" id="location">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="image">Image Url</label>
+                <input class="form-control" type="text" name="hub[image]" id="image">
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" type="text" name="hub[description]" id="description"></textarea>
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-success">Add Hub</button>
+            </div>
+        </form>
+        <a href="/hubs">All Hubs</a>
+    </div>
+</div>

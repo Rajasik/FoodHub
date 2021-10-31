@@ -1,0 +1,22 @@
+<% layout('layouts/boilerplate') %>
+
+<h1>All Foodhubs</h1>
+<% for(let hub of hubs) {%>
+    <div class="card mb-3">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="<%= hub.image %>" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title"><%= hub.title %> </h5>
+                    <p class="card-text"><%= hub.description %> </p>
+                    <p class="card-text">
+                        <small class="text-muted"><%= hub.location %> </small>
+                    </p>
+                    <a href="/hubs/<%= hub.id %> " class="btn btn-primary">View <%= hub.title %> </a>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %> 
