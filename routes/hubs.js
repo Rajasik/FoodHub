@@ -1,86 +1,25 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const catchAsync = require("../utils/catchAsync");
-const ExpressError = require("../utils/ExpressError");
-const Hub = require("../models/hub");
-const { hubSchema } = require("../schemas.js");
+const catchAsync = require('../utils/catchAsync');
+const Hub = require('../models/hub');
+const { isLoggedIn, isAuthor, validateHub } = require('../middleware');
+const hubs = require('../controllers/hubs');
 
-const validateHub = (req, res, next) => {
-    const { error } = hubSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map((el) => el.message).join(",");
-        throw new ExpressError(msg, 400);
-    } else {
-        next();
-    }
-};
+const multer = require('multer');
+const { storage } = require('../cloudinary');
+const upload = multer({ storage });
 
-router.get(
-    "/",
-    catchAsync(async (req, res) => {
-        const hubs = await Hub.find({});
-        res.render("hubs/index", { hubs });
-    })
-);
+router.route('/')
+    .get(catchAsync(hubs.index))
+    .post(isLoggedIn, upload.array('image'), validateHub, catchAsync(hubs.createHub))
 
-router.get("/new", (req, res) => {
-    res.render("hubs/new");
-});
+router.get('/new', isLoggedIn, hubs.renderNewForm)
 
-router.post(
-    "/",
-    validateHub,
-    catchAsync(async (req, res) => {
-        const hub = new Hub(req.body.hub);
-        await hub.save();
-        req.flash("success", "Successfully made a new hub!");
-        res.redirect(`/hubs/${hub._id}`);
-    })
-);
+router.route('/:id')
+    .get(catchAsync(hubs.showHub))
+    .put(isLoggedIn, isAuthor, upload.array('image'), validateHub, catchAsync(hubs.updateHub))
+    .delete(isLoggedIn, isAuthor, catchAsync(hubs.deleteHub));
 
-router.get(
-    "/:id",
-    catchAsync(async (req, res) => {
-        const hub = await Hub.findById(req.params.id).populate("reviews");
-        if (!hub) {
-            req.flash("error", "Cannot find that hub!");
-            return res.redirect("/hubs");
-        }
-        res.render("hubs/show", { hub });
-    })
-);
-
-router.get(
-    "/:id/edit",
-    catchAsync(async (req, res) => {
-        const hub = await Hub.findById(req.params.id);
-        if (!hub) {
-            req.flash("error", "Cannot find that hub!");
-            return res.redirect("/hubs");
-        }
-        res.render("hubs/edit", { hub });
-    })
-);
-
-router.put(
-    "/:id/",
-    validateHub,
-    catchAsync(async (req, res) => {
-        const { id } = req.params;
-        const hub = await Hub.findByIdAndUpdate(id, { ...req.body.hub });
-        req.flash("success", "Successfully updated hub!");
-        res.redirect(`/hubs/${hub._id}`);
-    })
-);
-
-router.delete(
-    "/:id",
-    catchAsync(async (req, res) => {
-        const { id } = req.params;
-        await Hub.findByIdAndDelete(id);
-        req.flash("success", "Successfully deleted hub");
-        res.redirect(`/hubs`);
-    })
-);
+router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(hubs.renderEditForm))
 
 module.exports = router;
